@@ -1,0 +1,5 @@
+chr1	source	gene	1000	5000	.	+	.	gene_id "GENE001"; gene_name "EMT1";
+chr2	source	gene	100	4000	.	-	.	gene_id "GENE002"; gene_name "CELL_CYCLE1";
+chr3	source	gene	200	4200	.	+	.	gene_id "GENE003"; gene_name "STROMA1";
+chr4	source	gene	50	3000	.	-	.	gene_id "GENE004"; gene_name "INFLAM1";
+chr5	source	gene	80	3800	.	+	.	gene_id "GENE005"; gene_name "NEURO1";

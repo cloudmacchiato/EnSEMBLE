@@ -1,0 +1,238 @@
+# Instructions (keep answers concise and explicit)
+
+* Use “-” bullets for lists. Leave fields blank if unknown.
+* **Contrast** defines numerator vs. reference (e.g., L vs R), so **positive NES/effects = up in L**.
+* If starting with **GSEA-only**, say so; enhancer (ESEA) evidence can be added later.
+* Optional fields are for context/hypotheses; treat them as provisional, not requirements.
+* **Red_Flag_Contradictions** is optional; leave it blank if unsure—the agent will apply default assay-specific red flags.
+
+---
+
+## Core Study Context
+
+**Study_ID:**
+
+**System_Model:**
+
+* Example: Human cancer cell line; organoid; patient cohort.
+
+**Perturbation:**
+
+* Example: Small-molecule (name, target); CRISPR KO/knockdown (gene); cytokine; radiation; combination.
+* Dosing & timing: [dose(s), duration(s), schedule].
+
+**Contrast (case vs control):**
+
+* Define groups: case = __ ; control = __ ; **positive NES/effects = up in case**.
+* Replicates: case n=__ ; control n=__ .
+
+**Assay_Context:**
+
+* RNA-seq for GSEA ranking (specify library type if relevant).
+
+**ESEA_Status:**
+
+* Availability: [none yet | will add later | ready].
+
+**Known_Biology (short bullets):**
+
+* Example: Perturbation is expected to reduce proliferation.
+* Example: May induce stress/apoptosis or immune tone depending on context.
+
+**Key_Questions:**
+
+* Example: Do cell-cycle programs decrease under treatment?
+* Example: Are inflammatory/IFN/TNF modules engaged or suppressed?
+
+**Cell_Types_or_Programs_of_Interest (optional):**
+
+* Example: Lineage program(s) relevant to model.
+* Example: Specific regulatory modules (e.g., FOX-family, GATA-family enhancers).
+
+**Expected_Phenotypes_or_Trends (optional, expectations not mandates):**
+
+* Example: Expect E2F/cell-cycle down; apoptosis/stress up at later timepoints.
+
+**Pathway_Hypotheses (optional):**
+
+* Example: TNF–NF-κB signaling (candidate up); translation/mTOR (candidate down).
+
+**Red_Flag_Contradictions (optional):**
+
+*Guidance: List 3–6 plausible explanations for misleading signals (direction, timing, technical, mapping). For each: why it’s risky, and a quick check to confirm/refute. If left blank, the agent will insert defaults.*
+
+**Quick‑pick checklist (tick what applies):**
+
+* Direction mismatch with expected effect of the perturbation
+* Timing inconsistency (signal appears at an unlikely timepoint)
+* Technical/library artifact (batch, normalization, rRNA depletion issues)
+* Helper label interpreted as identity (should be treated as regulatory module)
+* Mapping/overlap artifacts (hub genes, inflated Fisher from small overlaps)
+* Composition/confounders (cell mix changes, serum, passage)
+
+**Examples:**
+
+* Mitotic spindle ↑ after cytotoxic treatment → could be batch/outliers; **check** cell‑cycle markers & replicate consistency.
+* Inflammatory signals ↑ at a late timepoint → could be timing artifact; **check** earlier timepoints and leading‑edge composition.
+* Translation ↓ with rRNA depletion issues → could be library bias; **check** QC metrics & housekeeping gene behavior.
+* Helper “fibroblast” interpreted as identity → label bias; **treat as a regulatory module**, not lineage; **check** motif/TF activity alignment.
+
+**Orthogonal_Evidence (optional):**
+
+* Example: Viability/Annexin V; phospho-S6; GR/TF ChIP; imaging markers.
+
+---
+
+# QUICK EXAMPLES (remake)
+
+### Example 1 — Small‑molecule stressor in a cancer line
+
+**Study_ID:** A549_DrugA_vs_DMSO
+
+**System_Model:** Human A549 lung adenocarcinoma cell line.
+
+**Perturbation:** DrugA (MAPK pathway inhibitor).
+
+* Dosing & timing: 1 µM, 24 h.
+
+**Contrast (L vs R):**
+
+* Define groups: case = DrugA; control = DMSO; **positive NES = up in case**.
+* Replicates: case n=3; control n=3.
+
+**Assay_Context:**
+
+* RNA-seq for GSEA ranking (polyA). Optional: ATAC-seq for validation later.
+
+**ESEA_Status:** will add later.
+
+**Known_Biology (short bullets):**
+
+* MAPK inhibition often lowers proliferation and can raise stress/apoptosis.
+
+**Key_Questions:**
+
+* Do E2F/cell-cycle programs decrease? Are apoptosis/stress modules engaged?
+
+**Cell_Types_or_Programs_of_Interest (optional):**
+
+* AP-1/STAT/FOXO regulatory modules.
+
+**Expected_Phenotypes_or_Trends (optional):**
+
+* E2F/cell-cycle down; UV_RESPONSE_DN up; apoptosis up.
+
+**Pathway_Hypotheses (optional):**
+
+* TNF–NF-κB (candidate up); translation/mTOR (candidate down).
+
+**Red_Flag_Contradictions:**
+
+* Cell-cycle ↑ under drug → could be batch/outliers; **check** replicate PCA & Ki-67 markers.
+* Inflammatory ↑ without phenotype → could be off-target; **check** time-course & cytokine assays.
+
+**Orthogonal_Evidence (optional):**
+
+* Annexin V at 24–48 h; cleaved PARP Western.
+
+---
+
+### Example 2 — CRISPR knockout in immune cells
+
+**Study_ID:** PBMC_CRISPR_KO_vs_WT
+
+**System_Model:** Human PBMCs (mixed immune populations).
+
+**Perturbation:** CRISPR KO of GeneX (immune adaptor).
+
+* Dosing & timing: constant KO; harvest 48 h post-activation.
+
+**Contrast (L vs R):**
+
+* Define groups: case = KO; control = WT; **positive NES = up in case**.
+* Replicates: case n=4; control n=4.
+
+**Assay_Context:**
+
+* RNA-seq for GSEA ranking (ribodeplete).
+
+**ESEA_Status:** none (start GSEA-only).
+
+**Known_Biology (short bullets):**
+
+* GeneX supports TCR signaling; loss may dampen cytokine pathways.
+
+**Key_Questions:**
+
+* Are IL2/STAT5, IFN-γ, TNF–NF-κB reduced? Is apoptosis increased?
+
+**Cell_Types_or_Programs_of_Interest (optional):**
+
+* T-cell activation modules; NF-κB/STAT TF families.
+
+**Expected_Phenotypes_or_Trends (optional):**
+
+* Cytokine signaling down; apoptosis/stress modestly up.
+
+**Pathway_Hypotheses (optional):**
+
+* TCR signaling (down); interferon responses (down).
+
+**Red_Flag_Contradictions:**
+
+* IFN/TNF pathways ↑ after KO → could be compensatory cytokines or cell-mix shift; **check** composition markers & cytokine release.
+* Global translation ↓ without viability change → could be normalization artifact; **check** rRNA metrics & housekeeping stability.
+
+**Orthogonal_Evidence (optional):**
+
+* Cytokine bead array; flow markers of activation.
+
+---
+
+### Example 3 — Cytokine treatment timepoint
+
+**Study_ID:** HepG2_IFNα_vs_Mock
+
+**System_Model:** Human HepG2 hepatoma cells.
+
+**Perturbation:** IFN-α, 6 h.
+
+**Contrast (L vs R):**
+
+* Define groups: case = IFNα; control = Mock; **positive NES = up in case**.
+* Replicates: case n=3; control n=3.
+
+**Assay_Context:**
+
+* RNA-seq for GSEA ranking.
+
+**ESEA_Status:** ready (helpers include TF families STAT/IRF and cell-type catalogs).
+
+**Known_Biology (short bullets):**
+
+* IFNα induces JAK–STAT and ISGs; may curb translation downstream.
+
+**Key_Questions:**
+
+* Are interferon alpha/gamma responses up? Is mTOR/translation down?
+
+**Cell_Types_or_Programs_of_Interest (optional):**
+
+* STAT/IRF enhancer modules.
+
+**Expected_Phenotypes_or_Trends (optional):**
+
+* Strong interferon signatures; modest E2F changes.
+
+**Pathway_Hypotheses (optional):**
+
+* Interferon signaling (up); mTOR/translation (down).
+
+**Red_Flag_Contradictions:**
+
+* IFN response absent → could be dosing/timepoint issue; **check** phospho-STAT1 and ISG qPCR.
+* mTOR/translation ↑ at 6 h → atypical; **check** phospho-S6 and later timepoints.
+
+**Orthogonal_Evidence (optional):**
+
+* pSTAT1 Western; ISG qPCR; polysome profiling.

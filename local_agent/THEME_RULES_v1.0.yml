@@ -1,0 +1,702 @@
+version: 1.1.0
+updated: '2024-06-13'
+changelog:
+  - date: '2024-06-13'
+    summary: 'Expanded MSigDB coverage and added high-frequency synonyms across all themes.'
+  - date: '2024-06-12'
+    summary: 'Initial expanded regex-driven theme definitions with prioritization and weighting.'
+defaults:
+  priority: 50
+  targets: [spaced, underscored, raw]
+  negative_targets: [spaced]
+  weights:
+    canonical: 3.0
+    positive: 1.0
+themes:
+  - id: tnf_nfkB
+    name: "TNF–NF-κB / inflammatory"
+    priority: 95
+    seed_sets:
+      - HALLMARK_TNFA_SIGNALING_VIA_NFKB
+      - HALLMARK_INFLAMMATORY_RESPONSE
+    patterns:
+      canonical:
+        - pattern: '\\bHALLMARK_TNFA_SIGNALING_VIA_NFKB\\b'
+          targets: [underscored]
+        - pattern: '\\bHALLMARK_INFLAMMATORY_RESPONSE\\b'
+          targets: [underscored]
+      positive:
+        - pattern: '\\bTNF(?:A|R)?\\b'
+        - pattern: '\\bNFKB\\b'
+        - pattern: 'NF[-_ ]?K(?:APPA)?B'
+          targets: [raw, spaced]
+        - pattern: '\\bIKK(?:[AB]|ALPHA|BETA)?\\b'
+        - pattern: '\\bIKB(?:A|B|E)?\\b'
+        - pattern: '\\bREL(?:A|B)?\\b'
+        - pattern: '\\bTLR[0-9]*\\b'
+        - pattern: '\\bMYD88\\b'
+        - pattern: '\\bINFLAMM(?:ATION|ASOME)\\b'
+        - pattern: '\\bNLRP[0-9]+\\b'
+        - pattern: '\\bIL1(?:A|B|R)\\b'
+      negative:
+        - pattern: 'HOMEOSTAT'
+
+  - id: ifn_jak_stat
+    name: "IFN / JAK-STAT"
+    priority: 90
+    seed_sets:
+      - HALLMARK_INTERFERON_ALPHA_RESPONSE
+      - HALLMARK_INTERFERON_GAMMA_RESPONSE
+    patterns:
+      canonical:
+        - pattern: '\\bHALLMARK_INTERFERON_ALPHA_RESPONSE\\b'
+          targets: [underscored]
+        - pattern: '\\bHALLMARK_INTERFERON_GAMMA_RESPONSE\\b'
+          targets: [underscored]
+      positive:
+        - pattern: '\\bIFN(?:A|ALPHA)\\b'
+        - pattern: '\\bIFN(?:B|BETA)\\b'
+        - pattern: '\\bIFN(?:G|GAMMA)\\b'
+        - pattern: '\\bINTERFERON\\b'
+        - pattern: '\\bSTAT(?:1|2|3|4|5|6)\\b'
+        - pattern: '\\bJAK(?:1|2|3)?\\b'
+        - pattern: '\\bTYK2\\b'
+        - pattern: '\\bIRF[0-9]+\\b'
+        - pattern: '\\bISG[0-9]*\\b'
+        - pattern: '\\bSOCS[0-9]\\b'
+        - pattern: '\\bOAS[12]?\\b'
+      negative:
+        - pattern: 'HOMEOSTAT'
+        - pattern: 'PROSTAT'
+
+  - id: cell_cycle_core
+    name: "Cell cycle core programs"
+    priority: 85
+    seed_sets:
+      - HALLMARK_E2F_TARGETS
+      - HALLMARK_MYC_TARGETS_V1
+    patterns:
+      canonical:
+        - pattern: '\\bHALLMARK_E2F_TARGETS\\b'
+          targets: [underscored]
+        - pattern: '\\bHALLMARK_MYC_TARGETS_V[0-9]+\\b'
+          targets: [underscored]
+      positive:
+        - pattern: '\\bE2F\\b'
+        - pattern: '\\bMYC\\b'
+        - pattern: '\\bE2F[_ ]?TARGETS?\\b'
+          targets: [underscored, spaced]
+        - pattern: '\\bMYC[_ ]?TARGETS?\\b'
+          targets: [underscored, spaced]
+        - pattern: '\\bG1[_/ ]?S\\b'
+        - pattern: '\\bS[_ ]?PHASE\\b'
+        - pattern: '\\bCELL[_ ]?CYCLE\\b'
+        - pattern: '\\bCDK(?:[1-9]|1[0-5])\\b'
+        - pattern: '\\bCYCLIN\\b'
+        - pattern: '\\bCHK1\\b'
+        - pattern: '\\bCDC(?:6|7|25)\\b'
+        - pattern: '\\bRB1\\b'
+      negative:
+        - pattern: 'RECYCLE'
+
+  - id: g2m_mitosis
+    name: "Mitotic spindle & G2/M"
+    priority: 84
+    seed_sets:
+      - HALLMARK_G2M_CHECKPOINT
+      - HALLMARK_MITOTIC_SPINDLE
+    patterns:
+      canonical:
+        - pattern: '\\bHALLMARK_G2M_CHECKPOINT\\b'
+          targets: [underscored]
+        - pattern: '\\bHALLMARK_MITOTIC_SPINDLE\\b'
+          targets: [underscored]
+      positive:
+        - pattern: '\\bG2[_/ ]?M\\b'
+        - pattern: '\\bMITOTIC\\b'
+        - pattern: '\\bSPINDLE\\b'
+        - pattern: '\\bKINESIN\\b'
+        - pattern: '\\bAURORA(?:A|B)?\\b'
+        - pattern: '\\bPLK[1-4]\\b'
+        - pattern: '\\bBUB[1-3]\\b'
+        - pattern: '\\bMAD[12]\\b'
+        - pattern: '\\bCOHESIN\\b'
+        - pattern: '\\bCENTROSOME\\b'
+
+  - id: dna_damage
+    name: "DNA damage & checkpoints"
+    priority: 92
+    seed_sets:
+      - HALLMARK_DNA_REPAIR
+    patterns:
+      canonical:
+        - pattern: '\\bHALLMARK_DNA_REPAIR\\b'
+          targets: [underscored]
+      positive:
+        - pattern: '\\bDNA[_ ]?REPAIR\\b'
+        - pattern: '\\bDNA[_ ]?DAMAGE\\b'
+        - pattern: '\\bDOUBLE[_ -]?STRAND[_ ]BREAK\\b'
+        - pattern: '\\bDSB\\b'
+        - pattern: '\\bCHECKPOINT\\b'
+        - pattern: '\\bATM\\b'
+        - pattern: '\\bATR\\b'
+        - pattern: '\\bBRCA[12]?\\b'
+        - pattern: '\\bRAD51\\b'
+        - pattern: '\\bRAD[0-9]+\\b'
+        - pattern: '\\bCHK(?:1|2)\\b'
+        - pattern: '\\bHOM(?:OLOGOUS)?[_ ]RECOMBINATION\\b'
+        - pattern: '\\bNON[_ ]HOMOLOGOUS\\b'
+        - pattern: '\\bNHEJ\\b'
+        - pattern: '\\bMMR\\b'
+        - pattern: '\\bNER\\b'
+        - pattern: '\\bFANCONI\\b'
+
+  - id: p53_response
+    name: "p53 response"
+    priority: 88
+    seed_sets:
+      - HALLMARK_P53_PATHWAY
+    patterns:
+      canonical:
+        - pattern: '\\bHALLMARK_P53_PATHWAY\\b'
+          targets: [underscored]
+      positive:
+        - pattern: '\\bP53\\b'
+        - pattern: '\\bTP53\\b'
+        - pattern: '\\bCDKN1A\\b'
+        - pattern: '\\bP21\\b'
+        - pattern: '\\bMDM2\\b'
+        - pattern: '\\bMDM4\\b'
+        - pattern: '\\bGADD45\\b'
+
+  - id: apoptosis
+    name: "Apoptosis & cell death"
+    priority: 86
+    seed_sets:
+      - HALLMARK_APOPTOSIS
+    contributions:
+      primary: 1.0
+      secondary:
+        - theme: "p53 response"
+          weight: 0.2
+    patterns:
+      canonical:
+        - pattern: '\\bHALLMARK_APOPTOSIS\\b'
+          targets: [underscored]
+      positive:
+        - pattern: '\\bAPOPTO\\b'
+        - pattern: '\\bCASP[0-9]+\\b'
+        - pattern: '\\bCASPASE\\b'
+        - pattern: '\\bBCL(?:2|XL|XS)?\\b'
+        - pattern: '\\bBAX\\b'
+        - pattern: '\\bBAD\\b'
+        - pattern: '\\bBID\\b'
+        - pattern: '\\bFAS\\b'
+        - pattern: '\\bDEATH[_ ]RECEPTOR\\b'
+        - pattern: '\\bTNFR\\b'
+        - pattern: '\\bTRAIL\\b'
+
+  - id: emt_ecm
+    name: "EMT / ECM / adhesion"
+    priority: 83
+    seed_sets:
+      - HALLMARK_EPITHELIAL_MESENCHYMAL_TRANSITION
+      - HALLMARK_APICAL_JUNCTION
+    patterns:
+      canonical:
+        - pattern: '\\bHALLMARK_EPITHELIAL_MESENCHYMAL_TRANSITION\\b'
+          targets: [underscored]
+        - pattern: 'HALLMARK_APICAL_JUNCTION'
+          targets: [underscored]
+      positive:
+        - pattern: '\\bEMT\\b'
+        - pattern: '\\bEPITHELIAL\\b'
+        - pattern: '\\bMESENCHYM\\b'
+        - pattern: '\\bEXTRACELL\\b'
+        - pattern: '\\bECM\\b'
+        - pattern: '\\bMATRIX\\b'
+        - pattern: '\\bADHESION\\b'
+        - pattern: '\\bINTEGRIN\\b'
+        - pattern: '\\bFOCAL[_ ]ADHESION\\b'
+        - pattern: '\\bCOLLAGEN\\b'
+        - pattern: '\\bCADHERIN\\b'
+        - pattern: '\\bMMP[0-9]+\\b'
+        - pattern: '\\bFIBRONECTIN\\b'
+        - pattern: '\\bVIMENTIN\\b'
+        - pattern: '\\bLAMININ\\b'
+        - pattern: '\\bTGFB\\b'
+
+  - id: lineage_hematopoietic
+    name: "Lineage / hematopoietic"
+    priority: 70
+    seed_sets:
+      - GOBP_HEMATOPOIETIC_STEM_CELL_DIFFERENTIATION
+    patterns:
+      canonical:
+        - pattern: 'GOBP_HEMATOPOIETIC_STEM_CELL_DIFFERENTIATION'
+          targets: [underscored]
+      positive:
+        - pattern: '\\bHEMATOPOIET\\b'
+        - pattern: '\\bHSC\\b'
+        - pattern: '\\bSTEM[_ ]CELL\\b'
+        - pattern: '\\bERYTH\\b'
+        - pattern: '\\bMEGAKARYO\\b'
+        - pattern: '\\bMYELOID\\b'
+        - pattern: '\\bLYMPH\\b'
+        - pattern: '\\bB[_ ]CELL\\b'
+        - pattern: '\\bT[_ ]CELL\\b'
+        - pattern: '\\bNK[_ ]CELL\\b'
+        - pattern: '\\bMONOCYTE\\b'
+        - pattern: '\\bMACROPHAGE\\b'
+
+  - id: lineage_epithelial
+    name: "Lineage / epithelial-mesenchymal"
+    priority: 68
+    seed_sets:
+      - GOBP_EPITHELIAL_CELL_DIFFERENTIATION
+    patterns:
+      canonical:
+        - pattern: 'GOBP_EPITHELIAL_CELL_DIFFERENTIATION'
+          targets: [underscored]
+      positive:
+        - pattern: '\\bKERATIN\\b'
+        - pattern: '\\bEPCAM\\b'
+        - pattern: '\\bCLAUDIN\\b'
+        - pattern: '\\bE_CADHERIN\\b'
+          targets: [underscored]
+        - pattern: '\\bBASAL\\b'
+        - pattern: '\\bLUMINAL\\b'
+        - pattern: '\\bMESENCHYM\\b'
+        - pattern: '\\bSNAI[12]\\b'
+        - pattern: '\\bSLUG\\b'
+        - pattern: '\\bTWIST\\b'
+
+  - id: lineage_neural
+    name: "Lineage / neural"
+    priority: 68
+    seed_sets:
+      - GOBP_NEURON_DEVELOPMENT
+    patterns:
+      canonical:
+        - pattern: 'GOBP_NEURON_DEVELOPMENT'
+          targets: [underscored]
+      positive:
+        - pattern: '\\bNEURAL\\b'
+        - pattern: '\\bNEURON\\b'
+        - pattern: '\\bNEUROGEN\\b'
+        - pattern: '\\bAXON\\b'
+        - pattern: '\\bDENDRIT\\b'
+        - pattern: '\\bSYNAP\\b'
+        - pattern: '\\bASTROCYTE\\b'
+        - pattern: '\\bOLIGODENDRO\\b'
+        - pattern: '\\bGLIAL\\b'
+        - pattern: '\\bNEUROBLAST\\b'
+        - pattern: '\\bDOPAMIN\\b'
+        - pattern: '\\bSEROTONIN\\b'
+
+  - id: tgfb_smad
+    name: "TGF-β / SMAD"
+    priority: 88
+    seed_sets:
+      - HALLMARK_TGF_BETA_SIGNALING
+    contributions:
+      primary: 1.0
+      secondary:
+        - theme: "EMT / ECM / adhesion"
+          weight: 0.3
+    patterns:
+      canonical:
+        - pattern: '\\bHALLMARK_TGF_BETA_SIGNALING\\b'
+          targets: [underscored]
+      positive:
+        - pattern: '\\bTGF[_ ]?B(?:ETA)?\\b'
+        - pattern: '\\bTGFB\\b'
+        - pattern: '\\bSMAD[1-9]\\b'
+        - pattern: '\\bSMAD\\b'
+        - pattern: '\\bBMP[0-9]+\\b'
+        - pattern: '\\bACTIVIN\\b'
+        - pattern: '\\bACVR[12]\\b'
+        - pattern: '\\bTGFBR[12]\\b'
+        - pattern: '\\bINHBA\\b'
+
+  - id: mapk_axis
+    name: "MAPK / ERK-JNK-p38"
+    priority: 87
+    seed_sets:
+      - HALLMARK_KRAS_SIGNALING_UP
+      - HALLMARK_KRAS_SIGNALING_DN
+    patterns:
+      canonical:
+        - pattern: '\\bHALLMARK_KRAS_SIGNALING_(?:UP|DN)\\b'
+          targets: [underscored]
+      positive:
+        - pattern: '\\bMAPK\\b'
+        - pattern: '\\bERK[12]?\\b'
+        - pattern: '\\bMEK[12]\\b'
+        - pattern: '\\bRAF[AB]?\\b'
+        - pattern: '\\bBRAF\\b'
+        - pattern: '\\bKRAS\\b'
+        - pattern: '\\bNRAS\\b'
+        - pattern: '\\bHRAS\\b'
+        - pattern: '\\bJNK\\b'
+        - pattern: '\\bP38\\b'
+        - pattern: '\\bSAPK\\b'
+        - pattern: '\\bFOS\\b'
+        - pattern: '\\bJUN\\b'
+        - pattern: '\\bELK1\\b'
+
+  - id: pi3k_akt_mtor
+    name: "PI3K / AKT / mTOR"
+    priority: 87
+    seed_sets:
+      - HALLMARK_PI3K_AKT_MTOR_SIGNALING
+      - HALLMARK_MTORC1_SIGNALING
+    patterns:
+      canonical:
+        - pattern: '\\bHALLMARK_PI3K_AKT_MTOR_SIGNALING\\b'
+          targets: [underscored]
+        - pattern: '\\bHALLMARK_MTORC1_SIGNALING\\b'
+          targets: [underscored]
+      positive:
+        - pattern: '\\bPI3K\\b'
+        - pattern: '\\bP110\\b'
+        - pattern: '\\bAKT[1-3]?\\b'
+        - pattern: '\\bMTOR\\b'
+        - pattern: '\\bPIP3\\b'
+        - pattern: '\\bPDPK1\\b'
+        - pattern: '\\bPTEN\\b'
+        - pattern: '\\bFOXO[13]\\b'
+        - pattern: '\\bS6K\\b'
+        - pattern: '\\bRPS6KB[12]\\b'
+        - pattern: '\\b4EBP1\\b'
+        - pattern: '\\bEIF4EBP1\\b'
+        - pattern: '\\bTSC[12]\\b'
+
+  - id: wnt_beta_catenin
+    name: "WNT / β-catenin"
+    priority: 82
+    seed_sets:
+      - HALLMARK_WNT_BETA_CATENIN_SIGNALING
+    patterns:
+      canonical:
+        - pattern: '\\bHALLMARK_WNT_BETA_CATENIN_SIGNALING\\b'
+          targets: [underscored]
+      positive:
+        - pattern: '\\bWNT\\b'
+        - pattern: '\\bBETA[_ ]?CATENIN\\b'
+        - pattern: '\\bCTNNB1\\b'
+        - pattern: '\\bLRP[56]\\b'
+        - pattern: '\\bFRIZZLED\\b'
+        - pattern: '\\bFZD[1-9]\\b'
+        - pattern: '\\bTCF[0-9]*\\b'
+        - pattern: '\\bLEF[0-9]*\\b'
+        - pattern: '\\bAXIN[12]?\\b'
+        - pattern: '\\bAPC\\b'
+        - pattern: '\\bDKK[1-4]\\b'
+        - pattern: '\\bPORCN\\b'
+
+  - id: notch
+    name: "Notch signaling"
+    priority: 80
+    seed_sets:
+      - HALLMARK_NOTCH_SIGNALING
+    patterns:
+      canonical:
+        - pattern: '\\bHALLMARK_NOTCH_SIGNALING\\b'
+          targets: [underscored]
+      positive:
+        - pattern: '\\bNOTCH[1-4]?\\b'
+        - pattern: '\\bDLL[14]?\\b'
+        - pattern: '\\bJAG(?:GED)?[12]?\\b'
+        - pattern: '\\bHES[0-9]*\\b'
+        - pattern: '\\bHEY[0-9]*\\b'
+        - pattern: '\\bRBPJ\\b'
+        - pattern: '\\bADAM10\\b'
+        - pattern: '\\bADAM17\\b'
+
+  - id: hedgehog
+    name: "Hedgehog signaling"
+    priority: 78
+    seed_sets:
+      - HALLMARK_HEDGEHOG_SIGNALING
+    patterns:
+      canonical:
+        - pattern: '\\bHALLMARK_HEDGEHOG_SIGNALING\\b'
+          targets: [underscored]
+      positive:
+        - pattern: '\\bHEDGEHOG\\b'
+        - pattern: '\\bSHH\\b'
+        - pattern: '\\bIHH\\b'
+        - pattern: '\\bDHH\\b'
+        - pattern: '\\bPTCH[12]?\\b'
+        - pattern: '\\bSMO\\b'
+        - pattern: '\\bGLI[123]?\\b'
+        - pattern: '\\bSUFU\\b'
+
+  - id: hippo_yap_taz
+    name: "Hippo / YAP-TAZ"
+    priority: 78
+    seed_sets:
+      - GOBP_HIPPO_SIGNALING
+      - WP_HIPPO_SIGNALING_REGULATION
+      - REACTOME_SIGNALING_BY_HIPPO
+    patterns:
+      canonical:
+        - pattern: 'HIPPO_SIGNALING'
+          targets: [underscored]
+      positive:
+        - pattern: '\\bHIPPO\\b'
+        - pattern: '\\bYAP1?\\b'
+        - pattern: '\\bTAZ\\b'
+        - pattern: '\\bWWTR1\\b'
+        - pattern: '\\bTEAD[1-4]\\b'
+        - pattern: '\\bLATS[12]\\b'
+        - pattern: '\\bMST1\\b'
+        - pattern: '\\bSAV1\\b'
+        - pattern: '\\bYAP_TARGETS\\b'
+
+  - id: hypoxia_hif1
+    name: "Hypoxia / HIF-1"
+    priority: 84
+    seed_sets:
+      - HALLMARK_HYPOXIA
+    patterns:
+      canonical:
+        - pattern: '\\bHALLMARK_HYPOXIA\\b'
+          targets: [underscored]
+      positive:
+        - pattern: '\\bHYPOXI\\b'
+        - pattern: '\\bHIF(?:1A|2A|3A)?\\b'
+        - pattern: '\\bARNT\\b'
+        - pattern: '\\bVHL\\b'
+        - pattern: '\\bEPO\\b'
+        - pattern: '\\bVEGF\\b'
+        - pattern: '\\bEGLN[1-3]\\b'
+        - pattern: '\\bPHD[12]?\\b'
+        - pattern: '\\bLDHA\\b'
+        - pattern: '\\bGLUT1\\b'
+
+  - id: upr_er_stress
+    name: "UPR / ER stress"
+    priority: 82
+    seed_sets:
+      - HALLMARK_UNFOLDED_PROTEIN_RESPONSE
+    patterns:
+      canonical:
+        - pattern: '\\bHALLMARK_UNFOLDED_PROTEIN_RESPONSE\\b'
+          targets: [underscored]
+      positive:
+        - pattern: '\\bUNFOLDED[_ ]PROTEIN\\b'
+        - pattern: '\\bER[_ ]STRESS\\b'
+        - pattern: '\\bENDOPLASMIC[_ ]RETICULUM\\b'
+        - pattern: '\\bATF4\\b'
+        - pattern: '\\bATF6\\b'
+        - pattern: '\\bPERK\\b'
+        - pattern: '\\bEIF2(?:A|AK3)\\b'
+        - pattern: '\\bCHOP\\b'
+        - pattern: '\\bDDIT3\\b'
+        - pattern: '\\bXBP1\\b'
+        - pattern: '\\bIRE1\\b'
+        - pattern: '\\bHSPA5\\b'
+
+  - id: autophagy
+    name: "Autophagy"
+    priority: 80
+    seed_sets:
+      - GOBP_MACROAUTOPHAGY
+      - REACTOME_AUTOPHAGY
+    patterns:
+      canonical:
+        - pattern: '\\bAUTOPHAGY\\b'
+        - pattern: 'GOBP_MACROAUTOPHAG'
+          targets: [underscored]
+      positive:
+        - pattern: '\\bAUTOPHAG\\b'
+        - pattern: '\\bATG[0-9]+\\b'
+        - pattern: '\\bBECN1\\b'
+        - pattern: '\\bVPS34\\b'
+        - pattern: '\\bPIK3C3\\b'
+        - pattern: '\\bULK[12]\\b'
+        - pattern: '\\bLC3\\b'
+        - pattern: '\\bMAP1LC3\\b'
+        - pattern: '\\bSQSTM1\\b'
+        - pattern: '\\bP62\\b'
+        - pattern: '\\bMACROAUTOPHAG\\b'
+        - pattern: '\\bMITOPHAG\\b'
+        - pattern: 'AUTOPHAGY[_ ]VESICLE'
+        - pattern: 'VESICLE[_ ]NUCLEATION'
+        - pattern: '\\bSEQUESTOSOME\\b'
+
+  - id: oxphos_mito
+    name: "OxPhos / mitochondria"
+    priority: 83
+    seed_sets:
+      - HALLMARK_OXIDATIVE_PHOSPHORYLATION
+    patterns:
+      canonical:
+        - pattern: '\\bHALLMARK_OXIDATIVE_PHOSPHORYLATION\\b'
+          targets: [underscored]
+      positive:
+        - pattern: '\\bOXIDATIVE[_ ]?PHOSPHORYLATION\\b'
+        - pattern: '\\bOXPHOS\\b'
+        - pattern: '\\bMITO(?:CHONDR(?:IA|IAL))?\\b'
+        - pattern: '\\bRESPIRATORY[_ ]CHAIN\\b'
+        - pattern: '\\bELECTRON[_ ]TRANSPORT\\b'
+        - pattern: '\\bELECTRON[_ ]TRANSFER\\b'
+        - pattern: '\\bCOMPLEX[_ ](?:I|II|III|IV|V)\\b'
+        - pattern: '\\bATP[_ ]SYNTHASE\\b'
+        - pattern: '\\bTCA\\b'
+        - pattern: '\\bTRICARBOXYLIC\\b'
+        - pattern: '\\bBETA[_-]?OXIDATION\\b'
+        - pattern: '\\bFATTY[_ ]ACID[_ ]OXIDATION\\b'
+        - pattern: '\\bCARNITINE\\b'
+
+  - id: glycolysis
+    name: "Glycolysis & carbohydrate metabolism"
+    priority: 80
+    seed_sets:
+      - HALLMARK_GLYCOLYSIS
+    patterns:
+      canonical:
+        - pattern: '\\bHALLMARK_GLYCOLYSIS\\b'
+          targets: [underscored]
+      positive:
+        - pattern: '\\bGLYCOL\\b'
+        - pattern: '\\bGLUCOSE\\b'
+        - pattern: '\\bGLUT[0-9]\\b'
+        - pattern: '\\bLACTATE\\b'
+        - pattern: '\\bLDH[A-Z]?\\b'
+        - pattern: '\\bPFK[BLM]?\\b'
+        - pattern: '\\bPKM[12]?\\b'
+        - pattern: '\\bENO[123]\\b'
+        - pattern: '\\bGAPDH\\b'
+        - pattern: '\\bPENTOSE[_ ]PHOSPHATE\\b'
+        - pattern: '\\bPPP\\b'
+        - pattern: '\\bFRUCTOSE\\b'
+        - pattern: '\\bGLYCOGEN\\b'
+
+  - id: translation_ribosome
+    name: "Translation / ribosome"
+    priority: 78
+    seed_sets:
+      - REACTOME_TRANSLATION
+      - GOBP_TRANSLATION
+    patterns:
+      canonical:
+        - pattern: 'GOBP_TRANSLATION'
+          targets: [underscored]
+      positive:
+        - pattern: '\\bTRANSLATION\\b'
+        - pattern: '\\bRIBOSOM(?:E|AL)\\b'
+        - pattern: '\\bEIF[1-5]\\b'
+        - pattern: '\\bEIF4E\\b'
+        - pattern: '\\bEIF2S?\\b'
+        - pattern: '\\bEIF3[A-Z0-9]*\\b'
+        - pattern: '\\bEIF2B[0-9]\\b'
+        - pattern: '\\bPOLY(?:SOME|RIBOSOME)\\b'
+        - pattern: '\\b40S\\b'
+        - pattern: '\\b60S\\b'
+        - pattern: '\\bRPL[0-9]+\\b'
+        - pattern: '\\bRPS[0-9]+\\b'
+        - pattern: '\\bMRPL[0-9]+\\b'
+
+  - id: proteasome_ubiquitin
+    name: "Proteasome / ubiquitin"
+    priority: 77
+    seed_sets:
+      - KEGG_PROTEASOME
+      - REACTOME_PROTEIN_UBIQUITINATION
+    patterns:
+      canonical:
+        - pattern: 'REACTOME_PROTEIN_UBIQUITINATION'
+          targets: [underscored]
+      positive:
+        - pattern: '\\bPROTEASOME\\b'
+        - pattern: '\\bUBIQUITIN\\b'
+        - pattern: '\\bUBIQUIT[YL]\\b'
+        - pattern: '\\bUPS\\b'
+        - pattern: '\\bE[123]\\b'
+        - pattern: '\\bCUL[1-7]\\b'
+        - pattern: '\\bNEDD8\\b'
+        - pattern: '\\bPROTEOLYSIS\\b'
+        - pattern: '\\bDEUBIQUITIN\\b'
+        - pattern: '\\bUBIQUITIN[_ ]LIGASE\\b'
+        - pattern: '\\bE3[_ ]LIGASE\\b'
+
+  - id: chromatin_epigenetics
+    name: "Chromatin / epigenetics"
+    priority: 82
+    seed_sets:
+      - GOBP_CHROMATIN_REMODELING
+    patterns:
+      canonical:
+        - pattern: 'GOBP_CHROMATIN_REMOD'
+          targets: [underscored]
+      positive:
+        - pattern: '\\bCHROMATIN\\b'
+        - pattern: '\\bEPIGEN\\b'
+        - pattern: '\\bHISTONE\\b'
+        - pattern: '\\bH3K[0-9]+(?:ME|AC)\\b'
+        - pattern: '\\bMETHYLATION\\b'
+        - pattern: '\\bACETYLATION\\b'
+        - pattern: '\\bHDAC\\b'
+        - pattern: '\\bHAT\\b'
+        - pattern: '\\bDNMT[123]\\b'
+        - pattern: '\\bSWI[-_ ]?SNF\\b'
+        - pattern: '\\bSMAR[CD][0-9]+\\b'
+        - pattern: '\\bEZH[12]\\b'
+        - pattern: '\\bPRC[12]\\b'
+        - pattern: '\\bPOLYCOMB\\b'
+        - pattern: '\\bCHD[1-9]\\b'
+        - pattern: '\\bCHROMATIN[_ ]REMODEL\\b'
+        - pattern: '\\bHETEROCHROMATIN\\b'
+        - pattern: '\\bMETHYLTRANSFERASE\\b'
+
+  - id: cytoskeleton
+    name: "Cytoskeleton dynamics"
+    priority: 76
+    seed_sets:
+      - GOBP_CYTOSKELETON_ORGANIZATION
+    patterns:
+      canonical:
+        - pattern: 'GOBP_CYTOSKELETON_ORGANIZATION'
+          targets: [underscored]
+      positive:
+        - pattern: '\\bCYTOSKELET\\b'
+        - pattern: '\\bACTIN\\b'
+        - pattern: '\\bTUBULIN\\b'
+        - pattern: '\\bMICROTUBULE\\b'
+        - pattern: '\\bINTERMEDIATE[_ ]FILAMENT\\b'
+        - pattern: '\\bMYOSIN\\b'
+        - pattern: '\\bDYNEIN\\b'
+        - pattern: '\\bRHO[ABCG]\\b'
+        - pattern: '\\bCDC42\\b'
+        - pattern: '\\bRAC[12]\\b'
+        - pattern: '\\bFAK\\b'
+        - pattern: '\\bPAXILLIN\\b'
+        - pattern: '\\bFILAMIN\\b'
+        - pattern: '\\bCORTACTIN\\b'
+
+  - id: complement_coagulation
+    name: "Complement / coagulation"
+    priority: 72
+    seed_sets:
+      - HALLMARK_COMPLEMENT
+      - HALLMARK_COAGULATION
+    patterns:
+      canonical:
+        - pattern: '\\bHALLMARK_COMPLEMENT\\b'
+          targets: [underscored]
+        - pattern: '\\bHALLMARK_COAGULATION\\b'
+          targets: [underscored]
+      positive:
+        - pattern: '\\bCOMPLEMENT\\b'
+        - pattern: '\\bCOAGULATION\\b'
+        - pattern: '\\bFIBRIN\\b'
+        - pattern: '\\bFIBRINOGEN\\b'
+        - pattern: '\\bTHROMBIN\\b'
+        - pattern: '\\bPROTHROMBIN\\b'
+        - pattern: '\\bKALLIKREIN\\b'
+        - pattern: '\\bSERPIN\\b'
+        - pattern: '\\bPLASMIN\\b'
+        - pattern: '\\bC[1-9][A-Z0-9]*\\b'

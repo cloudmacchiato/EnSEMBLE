@@ -1,0 +1,11 @@
+Study_ID: TNBC_SNAI1_demo
+System_Model: TNBC cell line
+Perturbation: CRISPR knockout of SNAI1
+Contrast: SNAI1_KO vs WT
+Assay_Context: Bulk total RNA-seq for enhancer and gene counts
+Known_Biology: Loss of SNAI1 should reduce mesenchymal programs and restore epithelial traits.
+Key_Questions: Which enhancer helpers and pathways respond to SNAI1 loss?
+Cell_Types_of_Interest_(optional): Basal-like TNBC states
+Expected_Phenotypes_or_Trends_(optional, describe expectations not mandates): KO should downregulate EMT enhancers, reduce stromal support, and dampen inflammatory cues.
+Pathway_Hypotheses_(optional): EMT and interferon programs shift with SNAI1 status.
+Red_Flag_Contradictions: EMT activation in KO would contradict biology.

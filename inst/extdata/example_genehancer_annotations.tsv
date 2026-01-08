@@ -1,0 +1,11 @@
+GHid	chr	element_start	element_end	regulatory_element_type
+GH001_EMT	chr1	1000	1500	Enhancer
+GH002_EMT	chr1	2000	2400	Enhancer
+GH003_CYCLE	chr2	500	900	Enhancer
+GH004_CYCLE	chr2	1500	1800	Enhancer
+GH005_STROMA	chr3	400	800	Enhancer
+GH006_STROMA	chr3	900	1300	Enhancer
+GH007_IR	chr4	100	450	Enhancer
+GH008_IR	chr4	700	950	Enhancer
+GH009_NEURO	chr5	300	700	Enhancer
+GH010_NEURO	chr5	900	1200	Enhancer

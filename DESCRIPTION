@@ -1,0 +1,34 @@
+Package: ENSEMBLE
+Title: An Enhancer Set Enrichment Method with Biological Explanations
+Version: 1.1.1
+Authors@R: 
+    person("Laizhi", "Zhang", , "laz64@pitt.edu", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-4489-7038"))
+Description: Provides enhancer-centric preprocessing, differential enhancer
+    expression (DEE), set enrichment (ESEA/GSEA), and visualization utilities
+    for perturbation studies. Includes scripts for generating enhancer and
+    gene matrices from FASTQ files plus a lightweight LLM agent interface for
+    summarising enhancer-helper evidence alongside pathway results. 
+    eORA for trait-associated SNPs enrichment analysis.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Imports:
+    data.table,
+    DESeq2,
+    edgeR,
+    fgsea,
+    GenomicRanges,
+    ggplot2,
+    ggrepel,
+    igraph,
+    IRanges,
+    Matrix,
+    otuSummary,
+    pheatmap,
+    jsonlite,
+    rtracklayer,
+    S4Vectors,
+    stringr,
+    viper,
+    biomaRt
+RoxygenNote: 7.3.2

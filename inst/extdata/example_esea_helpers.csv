@@ -1,0 +1,4 @@
+helper_name,helper_class,direction,nes,q_value,size,top_hallmark
+Basal EMT helper,cell_type,DOWN,-2.1,0.01,45,HALLMARK_EPITHELIAL_MESENCHYMAL_TRANSITION
+Stromal niche helper,cell_type,DOWN,-1.8,0.02,38,CUSTOM_TNBC_STROMA
+Interferon helper,cell_type,UP,1.5,0.04,22,HALLMARK_INTERFERON_RESPONSE
